@@ -32,9 +32,9 @@ module Lists where
   countLists lists ele | ele >= length lists = 0
   countLists lists ele = length (lists !! ele) + countLists lists (ele + 1)
 
-  sortSubLists :: [[Int]] -> [Int]
+  sortSubLists :: [[Int]] -> [[Int]]
   sortSubLists [] = []
-  sortSubLists lists = init (replaceList lists 0)
+  sortSubLists lists = quickSort lists
   replaceList :: [[Int]] -> Int -> [Int]
   replaceList list ele | ele >= length list = [0]
   replaceList list ele = [sumLists (list !! ele) 0] ++ replaceList list (ele + 1)
@@ -42,7 +42,7 @@ module Lists where
   sumLists lists ele | ele >= (length lists) = 0
   sumLists lists ele = lists !! ele + sumLists lists (ele + 1)
 
-  quickSort :: [Int] -> [Int]
+  quickSort :: [[Int]] -> [[Int]]
   quickSort [] = []
   quickSort list =
     do
@@ -52,11 +52,11 @@ module Lists where
       let greater = greaterThan sliced pivot 0
       quickSort less ++ [pivot] ++ quickSort greater
 
-  lessThan :: [Int] -> Int -> Int -> [Int]
+  lessThan :: [[Int]] -> [Int] -> Int -> [[Int]]
   lessThan list pivot ele | ele >= length list = []
-  lessThan list pivot ele = if (list !! ele) < pivot then [list !! ele] ++ (lessThan list pivot (ele + 1)) else lessThan list pivot (ele + 1)
+  lessThan list pivot ele = if sumLists (list !! ele) 0 < sumLists pivot 0 then [list !! ele] ++ (lessThan list pivot (ele + 1)) else lessThan list pivot (ele + 1)
  
-  greaterThan :: [Int] -> Int -> Int -> [Int]
+  greaterThan :: [[Int]] -> [Int] -> Int -> [[Int]]
   greaterThan list pivot ele | ele >= length list = []
-  greaterThan list pivot ele = if (list !! ele) >= pivot then [list !! ele] ++ (greaterThan list pivot (ele + 1)) else greaterThan list pivot (ele + 1)
+  greaterThan list pivot ele = if sumLists (list !! ele) 0 >= sumLists pivot 0 then [list !! ele] ++ (greaterThan list pivot (ele + 1)) else greaterThan list pivot (ele + 1)
  
