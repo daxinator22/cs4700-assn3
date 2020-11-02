@@ -22,6 +22,11 @@ module Lists where
       let result = [[]] ++ [take stage sample]
       tail (result ++ recurse)
 
+  countElements [[]] = 0
+  countElements lists = sumLists lists 0
+  sumLists lists ele | ele >= length lists = 0
+  sumLists lists ele = length (lists !! ele) + sumLists lists (ele + 1)
+
   -- I've left this sample definition in here, you should delete it
   oddNumbers :: Int -> [Int]
   oddNumbers n = [ x | x <- [1..n], (mod x 1) == 0] 
