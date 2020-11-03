@@ -5,6 +5,11 @@ module Lists where
   evenNumbers :: [Int]
   evenNumbers = [ x | x <- [1..], (mod x 2) == 0]
 
+  primeNumbers :: [Int]
+  primeNumbers = [x | x <- [2..], isPrime x]
+  isPrime :: Int -> Bool
+  isPrime k = if k > 1 then null [ x | x <- [2..k - 1], k `mod` x == 0] else False
+
   merge :: [a] -> [a] -> [a]
   merge x y = x ++ y
  
