@@ -60,3 +60,12 @@ module Lists where
   greaterThan list pivot ele | ele >= length list = []
   greaterThan list pivot ele = if sumLists (list !! ele) 0 >= sumLists pivot 0 then [list !! ele] ++ (greaterThan list pivot (ele + 1)) else greaterThan list pivot (ele + 1)
  
+  listApply :: (Foldable t, Num t1) => (a -> t1 -> t1) -> [t a] -> [t1]
+  listApply func [] = []
+  listApply func (x:xs) = foldr func 0 x:listApply func xs
+  
+  composeList :: [t -> t] -> t -> t
+  composeList [] arg = arg
+  composeList list arg = doFunctions list arg 0
+  doFunctions :: [t -> t] -> t -> Int -> t
+  doFunctions list arg ele = if ele == (length list) - 1 then (list !! ele) arg else (doFunctions list ((list !! ele) arg) (ele + 1))
